@@ -17,6 +17,10 @@ public class QuizManager : MonoBehaviour
     public GameObject WorngAnswerPanel;
     public GameObject FinishPanel;
 
+    [Space]
+    public GameObject CorrectPS;
+    public GameObject WorngPS;
+
     private List<QuestionData> availableQuestions;
     private QuestionData currentQuestion;
 
@@ -25,19 +29,24 @@ public class QuizManager : MonoBehaviour
     {
         gameManager = GetComponent<GameManager>();
 
-        // New Cpoy of the questions DB
+        // نسخه جدید از دیتابیس برای ایجاد نشدن تداخل
         availableQuestions = new List<QuestionData>(QuestionDB.questions);
         
     }
 
     public void ShowNewQuestion()
     {
+        CorrectPS.SetActive(false);
+        WorngPS.SetActive(false);
+
+
+        // غیر فعال کردن پنل های پاسخ و ریست کردن رنگ دکمه ها
         NextQuestPanel.SetActive(false);
         WorngAnswerPanel.SetActive(false);
-
         ResetColorBtn();
 
         
+        // برسی کردن اینکه ایا بازی تمام شده است یا نه
         if (availableQuestions.Count == 0)
         {
             Debug.Log("Game Finished! No more questions available.");
@@ -46,23 +55,23 @@ public class QuizManager : MonoBehaviour
             return;
         }
 
-        // Randomly select a question from the available questions
+        // انتخاب یک سوال تصادفی از لیست سوالات باقی مانده
         int randomIndex = Random.Range(0, availableQuestions.Count);
         currentQuestion = availableQuestions[randomIndex];
 
-        // Set the question text and answers in the UI
+        // نمایش سوال و پاسخ ها در UI
         QuestionText.text = currentQuestion.questionText;
         for (int i = 0; i < AnswerBtnText.Length; i++)
         {
             AnswerBtnText[i].text = currentQuestion.answers[i];
         }
 
-        // Remove the question from the available list
+        // حذف سوال نمایش داده شده از لیست باقی مانده ها
         availableQuestions.RemoveAt(randomIndex);
     }
     void ShowAnswerWhitColorBtn()
     {
-        // Show the correct answer with green and wrong answers with red
+        // نمایش سوالات غلط و درست با رنگ قرمز و سبز
 
         for (int i = 0; i < AnswerBtnText.Length; i++)
         {
@@ -79,7 +88,7 @@ public class QuizManager : MonoBehaviour
 
     void ResetColorBtn()
     {
-        // Reset the color of all answer buttons to white
+        // ریست کردن رنگ دکمه ها به سفید
         for (int i = 0; i < AnswerBtnText.Length; i++)
         {
             AnswerBtnText[i].GetComponentInParent<Image>().color = Color.white;
@@ -87,18 +96,20 @@ public class QuizManager : MonoBehaviour
     }
     public void OnAnswerSelected(int answerIndex)
     {
-        // Check if the selected answer is correct or wrong
+        // برسی پاسخ انتخاب شده و نمایش پاسخ صحیح یا غلط
         ShowAnswerWhitColorBtn();
         if (answerIndex == currentQuestion.correctAnswerIndex)
         {
             Debug.Log("Correct");
             NextQuestPanel.SetActive(true);
+            CorrectPS.SetActive(true);
             return;
         }
         else
         {
             Debug.Log("Worng");
             WorngAnswerPanel.SetActive(true);
+            WorngPS.SetActive(true);
         }
 
 
