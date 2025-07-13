@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     {
         StartPanel.SetActive(true);
         QuizPanel.SetActive(false);
+        FinishPanel.SetActive(false);
     }
     public void StartQuiz()
     {
