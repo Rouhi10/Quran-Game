@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 93316d6a2c640964bb02699f8b0bccd3, type: 3}
-  m_Name: QuizType1
+  m_Name: QuizType1 BackUp
   m_EditorClassIdentifier: 
   questions:
   - questionText: "\u062D - \u0645 - \u062F"

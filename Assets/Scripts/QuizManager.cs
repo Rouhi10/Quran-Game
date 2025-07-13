@@ -15,11 +15,18 @@ public class QuizManager : MonoBehaviour
     [Space]
     public GameObject NextQuestPanel;
     public GameObject WorngAnswerPanel;
-    public GameObject FinishPanel;
 
     [Space]
     public GameObject CorrectPS;
     public GameObject WorngPS;
+
+    [Space]
+    public int NumberOfQuestions = 4;
+    public int CorrectAnswer = 0;
+    public int WrongAnswer = 0;
+
+
+
 
     private List<QuestionData> availableQuestions;
     private QuestionData currentQuestion;
@@ -30,8 +37,28 @@ public class QuizManager : MonoBehaviour
         gameManager = GetComponent<GameManager>();
 
         // نسخه جدید از دیتابیس برای ایجاد نشدن تداخل
-        availableQuestions = new List<QuestionData>(QuestionDB.questions);
-        
+        List<QuestionData> SelectQuestions = new List<QuestionData>(QuestionDB.questions);
+
+        // برای رفع خطای NullReferenceException در صورت خالی بودن دیتابیس سوالات
+        availableQuestions = new List<QuestionData>();
+
+        // انتخاب 4 سوال تصادفی از دیتابیس سوالات
+        if (SelectQuestions.Count > NumberOfQuestions)
+        {
+            for (int i = 0; i < NumberOfQuestions; i++)
+            {
+                int randomIndex = Random.Range(0, SelectQuestions.Count);
+                availableQuestions.Add(SelectQuestions[randomIndex]);
+
+                SelectQuestions.RemoveAt(randomIndex);
+            }
+        }
+        else
+        {
+            availableQuestions = new List<QuestionData>(SelectQuestions);
+            NumberOfQuestions = availableQuestions.Count;
+        }
+
     }
 
     public void ShowNewQuestion()
@@ -50,8 +77,7 @@ public class QuizManager : MonoBehaviour
         if (availableQuestions.Count == 0)
         {
             Debug.Log("Game Finished! No more questions available.");
-            gameManager.EndQuiz();
-            FinishPanel.SetActive(true);
+            gameManager.EndQuiz(CorrectAnswer,WrongAnswer);
             return;
         }
 
@@ -101,6 +127,7 @@ public class QuizManager : MonoBehaviour
         if (answerIndex == currentQuestion.correctAnswerIndex)
         {
             Debug.Log("Correct");
+            CorrectAnswer++;
             NextQuestPanel.SetActive(true);
             CorrectPS.SetActive(true);
             return;
@@ -108,6 +135,7 @@ public class QuizManager : MonoBehaviour
         else
         {
             Debug.Log("Worng");
+            WrongAnswer++;
             WorngAnswerPanel.SetActive(true);
             WorngPS.SetActive(true);
         }
