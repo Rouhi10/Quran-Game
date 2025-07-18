@@ -1,7 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// این ویژگی نشان می‌دهد که این کلاس قابل نمایش در ادیتور یونیتی و ذخیره شدن است
 [System.Serializable]
 public class QuestionData 
 {
