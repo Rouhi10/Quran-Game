@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 public class QuizManager : MonoBehaviour
 {
+    //[HideInInspector]
     public QuestionDatabase QuestionDB;
 
-    [Space]
     public RTLTextMeshPro QuestionText;
     public RTLTextMeshPro[] AnswerBtnText;
 
@@ -36,6 +36,12 @@ public class QuizManager : MonoBehaviour
     {
         gameManager = GetComponent<GameManager>();
 
+        
+
+    }
+
+    public void SelectQuiz()
+    {
         // نسخه جدید از دیتابیس برای ایجاد نشدن تداخل
         List<QuestionData> SelectQuestions = new List<QuestionData>(QuestionDB.questions);
 
@@ -58,9 +64,7 @@ public class QuizManager : MonoBehaviour
             availableQuestions = new List<QuestionData>(SelectQuestions);
             NumberOfQuestions = availableQuestions.Count;
         }
-
     }
-
     public void ShowNewQuestion()
     {
         CorrectPS.SetActive(false);

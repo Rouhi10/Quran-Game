@@ -7,6 +7,7 @@ using UnityEngine;
 public class QuestionData 
 {
     public string questionText;
+    public string questionMeaning;
     public string[] answers = new string[4];
     public int correctAnswerIndex;
 }
