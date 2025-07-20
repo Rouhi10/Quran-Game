@@ -11,19 +11,22 @@ public class GameManager : MonoBehaviour
     public GameObject QuizPanel;
     public GameObject StartPanel;
     public GameObject FinishPanel;
-
+    public GameObject MeanPanel;
     [Space]
     public RTLTextMeshPro TextResultCorrect;
     public RTLTextMeshPro TextResultWrong;
     public RTLTextMeshPro TextResultTotal;
 
 
-
+    QuizManager quizManager;
     private void Start()
     {
+        quizManager = GetComponent<QuizManager>();
+
         StartPanel.SetActive(true);
         QuizPanel.SetActive(false);
         FinishPanel.SetActive(false);
+        MeanPanel.SetActive(false);
     }
 
 
@@ -67,5 +70,8 @@ public class GameManager : MonoBehaviour
     }
 
 
-
+    private void OnApplicationQuit()
+    {
+        quizManager.QuestionDB.questions.Clear();
+    }
 }

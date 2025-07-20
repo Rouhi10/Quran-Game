@@ -12,11 +12,15 @@ public class QuizManager : MonoBehaviour
     public RTLTextMeshPro QuestionText;
     public RTLTextMeshPro[] AnswerBtnText;
 
+    [Space, Header("Texts Mean Panel")]
+    public RTLTextMeshPro WordText;
+    public RTLTextMeshPro MeanText;
+
     [Space]
     public GameObject NextQuestPanel;
     public GameObject WorngAnswerPanel;
 
-    [Space]
+    [Space, Header("Partical System")]
     public GameObject CorrectPS;
     public GameObject WorngPS;
 
@@ -36,7 +40,7 @@ public class QuizManager : MonoBehaviour
     {
         gameManager = GetComponent<GameManager>();
 
-        
+
 
     }
 
@@ -67,6 +71,9 @@ public class QuizManager : MonoBehaviour
     }
     public void ShowNewQuestion()
     {
+        gameManager.QuizPanel.SetActive(true);
+        gameManager.MeanPanel.SetActive(false);
+
         CorrectPS.SetActive(false);
         WorngPS.SetActive(false);
 
@@ -76,12 +83,12 @@ public class QuizManager : MonoBehaviour
         WorngAnswerPanel.SetActive(false);
         ResetColorBtn();
 
-        
+
         // برسی کردن اینکه ایا بازی تمام شده است یا نه
         if (availableQuestions.Count == 0)
         {
             Debug.Log("Game Finished! No more questions available.");
-            gameManager.EndQuiz(CorrectAnswer,WrongAnswer);
+            gameManager.EndQuiz(CorrectAnswer, WrongAnswer);
             return;
         }
 
@@ -99,10 +106,12 @@ public class QuizManager : MonoBehaviour
         // حذف سوال نمایش داده شده از لیست باقی مانده ها
         availableQuestions.RemoveAt(randomIndex);
     }
-    void ShowAnswerWhitColorBtn()
+    void ShowAnswerWhitColorBtn(int answerSelectedIndex)
     {
-        // نمایش سوالات غلط و درست با رنگ قرمز و سبز
+        //فعال کردن حاشیه دکمه انتخابی کاربر
+        AnswerBtnText[answerSelectedIndex].GetComponentInParent<Outline>().enabled = true;
 
+        // نمایش سوالات غلط و درست با رنگ قرمز و سبز
         for (int i = 0; i < AnswerBtnText.Length; i++)
         {
             if (i == currentQuestion.correctAnswerIndex)
@@ -122,12 +131,13 @@ public class QuizManager : MonoBehaviour
         for (int i = 0; i < AnswerBtnText.Length; i++)
         {
             AnswerBtnText[i].GetComponentInParent<Image>().color = Color.white;
+            AnswerBtnText[i].GetComponentInParent<Outline>().enabled = false;
         }
     }
     public void OnAnswerSelected(int answerIndex)
     {
         // برسی پاسخ انتخاب شده و نمایش پاسخ صحیح یا غلط
-        ShowAnswerWhitColorBtn();
+        ShowAnswerWhitColorBtn(answerIndex);
         if (answerIndex == currentQuestion.correctAnswerIndex)
         {
             Debug.Log("Correct");
@@ -146,5 +156,19 @@ public class QuizManager : MonoBehaviour
 
 
 
+    }
+
+    public void ShowMeanPanel()
+    {
+        gameManager.QuizPanel.SetActive(false);
+        WorngAnswerPanel.SetActive(false);
+        WorngPS.SetActive(false);
+        NextQuestPanel.SetActive(false);
+        CorrectPS.SetActive(false);
+
+        gameManager.MeanPanel.SetActive(true);
+
+        WordText.text = currentQuestion.answers[currentQuestion.correctAnswerIndex];
+        MeanText.text = currentQuestion.questionMeaning;
     }
 }

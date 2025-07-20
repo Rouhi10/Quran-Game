@@ -11,8 +11,9 @@ public class ProgressBar : MonoBehaviour
     public float TimeToFill = 5f;
 
     public UnityEvent OnFillComplete;
-    private void Start()
+    private void OnEnable()
     {
+        Debug.Log("Start");
         StartCoroutine(FillImageOverTime(TimeToFill));
     }
 
@@ -41,4 +42,6 @@ public class ProgressBar : MonoBehaviour
 
         OnFillComplete?.Invoke();
     }
+
+
 }
