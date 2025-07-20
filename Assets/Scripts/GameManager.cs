@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using RTLTMPro;
+using UnityEngine.UI;
 
 
 public class GameManager : MonoBehaviour
@@ -16,12 +17,17 @@ public class GameManager : MonoBehaviour
     public RTLTextMeshPro TextResultWrong;
     public RTLTextMeshPro TextResultTotal;
 
+
+
     private void Start()
     {
         StartPanel.SetActive(true);
         QuizPanel.SetActive(false);
         FinishPanel.SetActive(false);
     }
+
+
+
     public void StartQuiz()
     {
         StartPanel.SetActive(false);
@@ -59,4 +65,7 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadSceneAsync(0);
     }
+
+
+
 }
