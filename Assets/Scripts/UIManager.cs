@@ -17,4 +17,16 @@ public class UIManager : MonoBehaviour
         // لود یک صحنه با ایندکس انتخابی
         SceneManager.LoadScene(sceneIndex);
     }
+
+    public void OpenInfoPanel(GameObject panel)
+    {
+        //باز کردن پنل درباره ما
+        panel.SetActive(true);
+    }
+
+    public void CloseInfoPanel(GameObject panel)
+    {
+        //بستن پنل درباره ما
+        panel.SetActive(false);
+    }
 }
